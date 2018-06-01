@@ -1,0 +1,5 @@
+parameters:
+    database_host: localhost
+    databaste_user: root
+    database_name: sf4
+    database_pwd:

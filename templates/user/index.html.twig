@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+	{% block body %}
+		<div class="container">
+				
+			<div class="table-responsive">
+			      <table class="table table-inverse">
+			        <thead>
+			          <tr>
+			            <th>#</th>
+			            <th>Table heading</th>
+			            <th>Table heading</th>
+			            <th>Table heading</th>
+			            <th>Table heading</th>
+			            <th>Table heading</th>
+			            <th>Table heading</th>
+			          </tr>
+			        </thead>
+
+
+			        <tbody>
+			     
+				    {% for user in users %}
+				        
+						     <tr>
+			            <th scope="row">{{ user.id }}</th>
+			            <td>{{ user.lastname }}</td>
+			            <td>{{ user.firstname }}</td>
+			            <td>{{ user.phone }}</td>
+			            <td>{{ user.email }}</td>
+			            <td><a  class="btn btn-dark" href="/user/{{ user.id }}">See user</a></td>
+			            <td><a class="btn btn-danger delete-article" href="/user/delete/{{ user.id }}">Delete</a></td>
+			          </tr>
+			             {% endfor %}
+					</tbody>
+				</table>
+			</div>			
+
+				        
+				        
+								
+						       	
+				 
+
+				</ul>
+		</div>
+	{% endblock %}
+
