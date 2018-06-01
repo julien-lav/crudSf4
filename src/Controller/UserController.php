@@ -88,13 +88,15 @@ class UserController extends Controller
             $entityManager->remove($user);
             $entityManager->flush();
 
-        return $this->list();     
+        return $this->redirect($this->generateUrl('users_list'));     
     }
 
     /**
      * @Route("/user/new", name="new_user")
      * @Method({"GET", "POST"})
-     *//*
+     */
+
+    /*
     public function new(Request $Request) 
     {
         $user = new User();
