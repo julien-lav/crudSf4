@@ -3,7 +3,21 @@
 		<div class="container">
 				<ul>
   
-				        <li> {{user.firstname}} </li>
+				        <li> {{ user.lastname }} </li>
+				        <li> {{ user.firstname }} </li>
+				        <li> {{ user.phone }} </li>
+				        <li> {{ user.email }} </li>
+				        <li> {{ user.dateOfBirth|date("m/d/Y") }} </li>
+				        <li> {{ user.deliveryAdress }} </li>
+				        <li> {{ user.deliveryPostalCode }} </li>
+				        <li> {{ user.deliveryCity }} </li>
+				        <li> {{ user.deliveryCountry }} </li>
+				       
+						<hr>
+				        <li> {{ user.invoiceAdress }} </li>
+				        <li> {{ user.invoicePostalCode }} </li>
+				        <li> {{ user.invoiceCity }} </li>
+				        <li> {{ user.invoiceCountry }} </li>
 				        <li> prenom </li>
 								  
 						<br />

@@ -5,12 +5,26 @@ use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Flex\Response;
+
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+
+
+
+// Use statement for annotation Method
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
 
 /*
-use Symfony\Flex\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
 */
 
 class UserController extends Controller
@@ -34,43 +48,9 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Matches /user/{id}
-     *
-     * @Route("/user/{id}", name="user_show")
-     */
-    public function show($id)
-    {
+   
 
-        $user = $this
-                    ->getDoctrine()
-                    ->getRepository(User::class)
-                    ->find($id);
-
-       
-       return $this->render('user/single.html.twig',
-            array('user' => $user));
-    }   
-
-     /**
-     * Matches /user/save
-     *
-     * @Route("/user/save", name="user_save")
-     */    
-    public function save() 
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $user = new User();
-
-        $user->setFirstName('Teste');
-
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        /*return new Response('User saved' . $user->getFirstName());*/
-    }
-
+   
      /**
      * Matches /user/delete
      *
@@ -88,38 +68,122 @@ class UserController extends Controller
             $entityManager->remove($user);
             $entityManager->flush();
 
-        return $this->redirect($this->generateUrl('users_list'));     
+            $msg = "ça marche ?";
+
+            $response = new Response();
+            $response->send($msg);
+
+        // return $this->redirect($this->generateUrl('users_list'));     
+        // Si on utilise le return directement, on peut se passer de $response 
+        // et donc de son --> use Symfony\Flex\Response;
+
     }
 
     /**
      * @Route("/user/new", name="new_user")
      * @Method({"GET", "POST"})
      */
-
-    /*
-    public function new(Request $Request) 
+    public function new(Request $request) 
     {
         $user = new User();
 
         $form = $this->createFormBuilder($user)
-                ->add('firstname', TextType::class, array('attr' => array('class' => 'form-control')));
-                ->add('lastname', TextType::class, array('attr' => array('class' => 'form-control')));
-                ->add('email', TextType::class, array('attr' => array('class' => 'form-control')));
-                ->add('phone', TextType::class, array('attr' => array('class' => 'form-control')));
-                ->add('dateOfBirth', TextType::class, array('attr' => array('class' => 'form-control')));
-                ->add('deliveryPostalCode', TextType::class, array('attr' => array('class' => 'form-control')));
-                ->add('invoicePostalCode', TextType::class, array('required' =>false, 'attr' => array('class' => 'form-control')));
-                ->add('deliveryAdress', TextType::class, array('attr' => array('class' => 'form-control')));
-                ->add('invoiceAdress', TextType::class, array('required' =>false, 'attr' => array('class' => 'form-control')));
-                ->add('deliveryCity', TextType::class, array('attr' => array('class' => 'form-control')));
-                ->add('invoiceCity', TextType::class, array('required' =>false, 'attr' => array('class' => 'form-control')));
-                ->add('deliveryCountry', TextType::class, array('attr' => array('class' => 'form-control')));
-                ->add('invoiceCountry', TextType::class, array('required' =>false, 'attr' => array('class' => 'form-control')));
-    }*/
+                ->add('firstname', TextType::class, array('attr' => array('class' => 'form-control')))
+                ->add('lastname', TextType::class, array('attr' => array('class' => 'form-control')))
+                ->add('email', EmailType::class, array('attr' => array('class' => 'form-control')))
+                ->add('phone', IntegerType::class, array('attr' => array('class' => 'form-control')))
+                ->add('dateOfBirth', DateType::class, array('required' =>false, 'placeholder' => 'Select a date', 'attr' => array('class' => 'form-control')))
+                ->add('deliveryPostalCode', IntegerType::class, array('attr' => array('class' => 'form-control')))
+                ->add('invoicePostalCode', IntegerType::class, array('required' =>false, 'attr' => array('class' => 'form-control')))
+                ->add('deliveryAdress', TextType::class, array('attr' => array('class' => 'form-control')))
+                ->add('invoiceAdress', TextType::class, array('required' =>false, 'attr' => array('class' => 'form-control')))
+                ->add('deliveryCity', TextType::class, array('attr' => array('class' => 'form-control')))
+                ->add('invoiceCity', TextType::class, array('required' =>false, 'attr' => array('class' => 'form-control')))
+                ->add('deliveryCountry', TextType::class, array('attr' => array('class' => 'form-control')))
+                ->add('invoiceCountry', TextType::class, array('required' =>false, 'attr' => array('class' => 'form-control')))
+                 ->add('save', SubmitType::class, array(
+                  'label' => 'Create a new user',
+                  'attr' => array('class' => 'btn btn-primary')))
+                ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+          
+            $user = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('users_list');
+      }
+        
+        return $this->render('user/new.html.twig', array('form' => $form->createView()));
+    }
+
+    /**
+     * @Route("/user/edit/{id}", name="edit_user")
+     * @Method({"GET", "POST"})
+     */
+    public function update(Request $request, $id) 
+    {
+        $user = new User();
+        $user = $this->getDoctrine()->getRepository(User::class)->find($id);
+
+        $form = $this->createFormBuilder($user)
+                ->add('firstname', TextType::class, array('attr' => array('class' => 'form-control')))
+                ->add('lastname', TextType::class, array('attr' => array('class' => 'form-control')))
+                ->add('email', EmailType::class, array('attr' => array('class' => 'form-control')))
+                ->add('phone', IntegerType::class, array('attr' => array('class' => 'form-control')))
+                ->add('dateOfBirth', DateType::class, array('required' =>false, 'attr' => array('class' => 'form-control')))
+                ->add('deliveryPostalCode', IntegerType::class, array('attr' => array('class' => 'form-control')))
+                ->add('invoicePostalCode', IntegerType::class, array('required' =>false, 'attr' => array('class' => 'form-control')))
+                ->add('deliveryAdress', TextType::class, array('attr' => array('class' => 'form-control')))
+                ->add('invoiceAdress', TextType::class, array('required' =>false, 'attr' => array('class' => 'form-control')))
+                ->add('deliveryCity', TextType::class, array('attr' => array('class' => 'form-control')))
+                ->add('invoiceCity', TextType::class, array('required' =>false, 'attr' => array('class' => 'form-control')))
+                ->add('deliveryCountry', TextType::class, array('required' =>false,'attr' => array('class' => 'form-control')))
+                ->add('invoiceCountry', TextType::class, array('required' =>false, 'attr' => array('class' => 'form-control')))
+                 ->add('save', SubmitType::class, array(
+                  'label' => 'Update a new user',
+                  'attr' => array('class' => 'btn btn-primary')))
+                ->getForm();
+
+        $form->handleRequest($request);
+
+       
+
+        if($form->isSubmitted() && $form->isValid()) {
+         
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+            return $this->redirectToRoute('users_list');
+      }
+        
+        return $this->render('user/new.html.twig', array('form' => $form->createView()));
+    }
+
+
+     /**
+     * Matches /user/{id}
+     *
+     * @Route("/user/{id}", name="user_show")
+     */
+    public function show($id)
+    {
+
+        $user = $this
+                    ->getDoctrine()
+                    ->getRepository(User::class)
+                    ->find($id);
+      
+       
+       return $this->render('user/single.html.twig',
+            array('user' => $user));
+    }   
 }
 
 /*
-INSERT INTO `user` (`id`, `firstname`, `email`, `lastname`, `date_of_birth`, `delivery_postal_code`, `invoice_postal_code`, `delivery_adress`, `invoice_adress`, `delivery_city`, `invoice_city`, `delivery_country`, `invoice_country`) VALUES (NULL, 'Cheunn', 'cheunn@mail.fr', 'Lee', '12/15/1986', '75011', '75011', '138 rue des cerises', 'idem', 'Paris', 'idem', 'fr', 'idem');
+INSERT INTO `user` (`id`, `firstname`, `email`, `date_of_birth`, `delivery_postal_code`, `invoice_postal_code`, `delivery_adress`, `invoice_adress`, `delivery_city`, `invoice_city`, `delivery_country`, `invoice_country`, `phone`, `lastname`) VALUES (NULL, 'Albert', 'alb@mail.fr', '2018-06-14', '11220', '75011', '12 rue des trèfles  ', '12 rue des trèfles  ', 'Lyon', 'Lyon', 'fr', 'fr', '212121', 'Premier');
 */
 ?>
 

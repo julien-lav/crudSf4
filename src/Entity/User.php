@@ -37,7 +37,7 @@ class User
     private $phone;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="date", nullable=true)
      */
     private $dateOfBirth;
 
@@ -159,72 +159,73 @@ class User
         return $this;
     }
 
-    public function getInvoiceAdress(): ?int
+    public function getInvoiceAdress(): ?string
     {
         return $this->invoiceAdress;
     }
 
-    public function setInvoiceAdress(?int $invoiceAdress): self
+    public function setInvoiceAdress(?string $invoiceAdress): self
     {
         $this->invoiceAdress = $invoiceAdress;
 
         return $this;
     }
 
-    public function getDeliveryCity(): ?int
+    public function getDeliveryCity(): ?string
     {
         return $this->deliveryCity;
     }
 
-    public function setDeliveryCity(?int $deliveryCity): self
+    public function setDeliveryCity(?string $deliveryCity): self
     {
         $this->deliveryCity = $deliveryCity;
 
         return $this;
     }
 
-    public function getInvoiceCity(): ?int
+    public function getInvoiceCity(): ?string
     {
         return $this->invoiceCity;
     }
 
-    public function setInvoiceCity(?int $invoiceCity): self
+    public function setInvoiceCity(?string $invoiceCity): self
     {
         $this->invoiceCity = $invoiceCity;
 
         return $this;
     }
 
-    public function getDeliveryCounrty(): ?int
+    public function getDeliveryCountry(): ?string
     {
-        return $this->deliveryCounrty;
+        return $this->deliveryCountry;
     }
 
-    public function setDeliveryCounrty(?int $deliveryCounrty): self
+    public function setDeliveryCountry(?string $deliveryCountry): self
     {
-        $this->deliveryCounrty = $deliveryCounrty;
+        $this->deliveryCountry = $deliveryCountry;
 
         return $this;
     }
 
-    public function getInvoiceCounrty(): ?int
+    public function getInvoiceCountry(): ?string
     {
-        return $this->invoiceCounrty;
+        return $this->invoiceCountry;
     }
 
-    public function setInvoiceCountry(?int $invoiceCounrty): self
+    public function setInvoiceCountry(?string $invoiceCountry): self
     {
-        $this->invoiceCounrty = $invoiceCounrty;
+        $this->invoiceCountry = $invoiceCountry;
 
         return $this;
     }
 
-    public function getDateOfBirth(): ?string
+    public function getDateOfBirth() //: ?date 
     {
-        return $this->dateOfBirth;
+       return $this->dateOfBirth;
     }
 
-    public function setDateOfBirth(?string $dateOfBirth): self
+
+    public function setDateOfBirth($dateOfBirth) //?date  :  self
     {
         $this->dateOfBirth = $dateOfBirth;
 
