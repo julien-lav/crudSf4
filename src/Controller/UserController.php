@@ -33,7 +33,7 @@ class UserController extends Controller
 {
     /**
      * Matches /
-     * 
+     *
      * @Route("/", name="users_list")
      */
     public function list()
