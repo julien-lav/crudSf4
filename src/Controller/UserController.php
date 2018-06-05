@@ -7,19 +7,21 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Flex\Response;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
-
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 // Use statement for annotation Method
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-
 
 /*
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +33,7 @@ class UserController extends Controller
 {
     /**
      * Matches /
-     *
+     * 
      * @Route("/", name="users_list")
      */
     public function list()
@@ -56,6 +58,7 @@ class UserController extends Controller
      *
      * @Route("/user/delete/{id}", name="user_delete")
      * Method({"DELETE"})
+     * @Security("has_role('ROLE_ADMIN')")
      */    
     public function delete(Request $request, $id) 
     {
@@ -67,8 +70,6 @@ class UserController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
-
-            $msg = "ça marche ?";
 
             $response = new Response();
             $response->send($msg);
@@ -82,12 +83,18 @@ class UserController extends Controller
     /**
      * @Route("/user/new", name="new_user")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN')")
      */
-    public function new(Request $request) 
+    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder) 
     {
         $user = new User();
 
         $form = $this->createFormBuilder($user)
+                ->add('username', TextType::class, array('attr' => array('class' => 'form-control')))
+                ->add('password', RepeatedType::class, array(
+                    'type' => PasswordType::class,
+                    'first_options'  => array('label' => 'Password'),
+                    'second_options' => array('label' => 'Repeat Password'),))
                 ->add('firstname', TextType::class, array('attr' => array('class' => 'form-control')))
                 ->add('lastname', TextType::class, array('attr' => array('class' => 'form-control')))
                 ->add('email', EmailType::class, array('attr' => array('class' => 'form-control')))
@@ -111,7 +118,19 @@ class UserController extends Controller
         if($form->isSubmitted() && $form->isValid()) {
           
             $user = $form->getData();
+            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);
+            
+
+
             $entityManager = $this->getDoctrine()->getManager();
+
+            /*if( !($user->getDateOfBirth() instanceof \DateTime) )
+                $user->setDateOfBirth( new \DateTime($user->getDateOfBirth()) );*/
+
+        
+
+
             $entityManager->persist($user);
             $entityManager->flush();
             return $this->redirectToRoute('users_list');
@@ -123,28 +142,34 @@ class UserController extends Controller
     /**
      * @Route("/user/edit/{id}", name="edit_user")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_ADMIN')")
      */
-    public function update(Request $request, $id) 
+    public function update(Request $request, $id, UserPasswordEncoderInterface $passwordEncoder) 
     {
         $user = new User();
         $user = $this->getDoctrine()->getRepository(User::class)->find($id);
 
-        $form = $this->createFormBuilder($user)
+       $form = $this->createFormBuilder($user)
+                ->add('username', TextType::class, array('attr' => array('class' => 'form-control')))
+                ->add('password', RepeatedType::class, array(
+                    'type' => PasswordType::class,
+                    'first_options'  => array('label' => 'Password'),
+                    'second_options' => array('label' => 'Repeat Password'),))
                 ->add('firstname', TextType::class, array('attr' => array('class' => 'form-control')))
                 ->add('lastname', TextType::class, array('attr' => array('class' => 'form-control')))
                 ->add('email', EmailType::class, array('attr' => array('class' => 'form-control')))
                 ->add('phone', IntegerType::class, array('attr' => array('class' => 'form-control')))
-                ->add('dateOfBirth', DateType::class, array('required' =>false, 'attr' => array('class' => 'form-control')))
+                ->add('dateOfBirth', DateType::class, array('required' =>false, 'placeholder' => 'Select a date', 'attr' => array('class' => 'form-control')))
                 ->add('deliveryPostalCode', IntegerType::class, array('attr' => array('class' => 'form-control')))
                 ->add('invoicePostalCode', IntegerType::class, array('required' =>false, 'attr' => array('class' => 'form-control')))
                 ->add('deliveryAdress', TextType::class, array('attr' => array('class' => 'form-control')))
                 ->add('invoiceAdress', TextType::class, array('required' =>false, 'attr' => array('class' => 'form-control')))
                 ->add('deliveryCity', TextType::class, array('attr' => array('class' => 'form-control')))
                 ->add('invoiceCity', TextType::class, array('required' =>false, 'attr' => array('class' => 'form-control')))
-                ->add('deliveryCountry', TextType::class, array('required' =>false,'attr' => array('class' => 'form-control')))
+                ->add('deliveryCountry', TextType::class, array('attr' => array('class' => 'form-control')))
                 ->add('invoiceCountry', TextType::class, array('required' =>false, 'attr' => array('class' => 'form-control')))
                  ->add('save', SubmitType::class, array(
-                  'label' => 'Update a new user',
+                  'label' => 'Create a new user',
                   'attr' => array('class' => 'btn btn-primary')))
                 ->getForm();
 
@@ -153,6 +178,9 @@ class UserController extends Controller
        
 
         if($form->isSubmitted() && $form->isValid()) {
+
+            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);
          
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
@@ -175,7 +203,7 @@ class UserController extends Controller
                     ->getDoctrine()
                     ->getRepository(User::class)
                     ->find($id);
-      
+
        
        return $this->render('user/single.html.twig',
             array('user' => $user));

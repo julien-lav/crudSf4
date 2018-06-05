@@ -3,11 +3,12 @@
 		<div class="container">
 				<ul>
   
+				        <li> {{ user.username }} </li>
 				        <li> {{ user.lastname }} </li>
 				        <li> {{ user.firstname }} </li>
 				        <li> {{ user.phone }} </li>
 				        <li> {{ user.email }} </li>
-				        <li> {{ user.dateOfBirth|date("m/d/Y") }} </li>
+				        <li> {{ user.dateOfBirth|date("d/m/Y") }} </li>
 				        <li> {{ user.deliveryAdress }} </li>
 				        <li> {{ user.deliveryPostalCode }} </li>
 				        <li> {{ user.deliveryCity }} </li>
@@ -21,7 +22,10 @@
 				        <li> prenom </li>
 								  
 						<br />
-				   		<a href="/"> >> Go Back << </a>    	
+
+				   		<a href="/" style="color: #6B346A; border 1px solid #6B346A;"> 
+				   			>> Go Back << 
+				   		</a>    	
 				 
 
 				   
