@@ -2,65 +2,9 @@
 {% block body %}
 	<div class="container">
 			
-		<div class="table-responsive">
-		      <table class="table table-inverse" id="user">
-		        <thead>
-		          <tr>
-		            <th>#</th>
-		            <th>Nom</th>
-		            <th>Prénom</th>
-		            <th>Téléphone</th>
-		            <th>Email</th>
-		            <th>Know more</th>
-		            
-		            <th>Destroy !</th>
-		            <th>Update</th>
-		          </tr>
-		        </thead>
-
-		        <tbody>
-		     
-			    {% for user in users %}
-			        
-				  <tr>
-		            <th scope="row">{{ user.id }}</th>
-		            <td>{{ user.lastname }}</td>
-		            <td>{{ user.firstname }}</td>
-		            <td>{{ user.phone }}</td>
-		            <td>{{ user.email }}</td>
-		            <td><a  class="btn btn-dark" href="/user/{{ user.id }}">See user</a></td>
-
-		            <td><a class="btn btn-danger delete-user" href="#"  data-id="{{ user.id }}">Delete</a></td>
-		            
-		            <!--
-		            <td><a id="user" class="btn btn-danger delete-user" href="/user/delete/{{ user.id }}"  data-id="{{ user.id }}">Delete</a></td>
-		          	-->
-		           	<td><a href="/user/edit/{{ user.id }}"><button type="button" class="btn btn-info">Update </button></a></td>	
-					
-		          </tr>
-		             {% endfor %}
-		          
-		          <tr>
-		            <td colspan="3" align="left">
-		          		<a href="/user/new"><button type="button" class="btn btn-info">Add a user</button></a>
-		          		<!--
-		          	    <a href="/user/select"><button type="button" class="btn btn-info">Update multiple users</button></a>
-		          		-->
-		            </td>
-		            <td colspan="2">
-		          		 &nbsp;
-		            </td>
-		            <td colspan="2" align="left">
-		           	      <a href="https://www.google.fr" target="_blank"><button type="button" class="btn btn-outline-info">Help ?</button></a>	
-		            </td>
-		          </tr>
-				</tbody>
-			</table>
-		</div>			
-	  </ul>
+	<h1>HOME</h1>	
+	 
 	</div>
 {% endblock %}
 	
-{% block javascripts %}
-  <script src="/js/main.js"></script>
-{% endblock %}
+

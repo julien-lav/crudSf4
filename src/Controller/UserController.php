@@ -31,28 +31,25 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class UserController extends Controller
 {
+
     /**
      * Matches /
-     *
+     * 
      * @Route("/", name="users_list")
      */
-    public function list()
+    public function homepage()
     {
-
-        $users = $this
-                    ->getDoctrine()
-                    ->getRepository(User::class)
-                    ->findAll();
-
+ 
        return $this->render('user/index.html.twig', 
         [
-            'users' => $users
+
         ]);
     }
 
-   
 
-   
+    /** TO DO :) **/
+    /** Organiser les fichiers d'une façon plus intelligente ! **/
+
      /**
      * Matches /user/delete
      *
@@ -127,8 +124,6 @@ class UserController extends Controller
 
             /*if( !($user->getDateOfBirth() instanceof \DateTime) )
                 $user->setDateOfBirth( new \DateTime($user->getDateOfBirth()) );*/
-
-        
 
 
             $entityManager->persist($user);

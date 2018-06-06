@@ -4,18 +4,19 @@
     {% block body %}
 
 <div class="container">
-    <form action="{{ path('login') }}" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control" />
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password" class="form-control"/>
+
+   <form action="{{ path('login') }}" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control" />
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="_password"class="form-control"  />
 
 
        
-        <input type="hidden" name="_target_path" value="/"/>
+        <input type="hidden" name="_target_path" value="/" />
     
-       
         <hr>
 
         <button type="submit" class="btn btn-dark">login</button>
@@ -23,5 +24,3 @@
 </div>
 
 {% endblock %}
-
-
