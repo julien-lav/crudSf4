@@ -6,6 +6,9 @@
         {% block stylesheets %}
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 			<link rel="stylesheet" href="https://bootswatch.com/4/sketchy/bootstrap.min.css">
+	        
+	       	<link rel="stylesheet" href="{{ asset('build/js/app.css') }}">
+			
         {% endblock %}
     </head>
     <body>
@@ -49,6 +52,7 @@
 	    <!-- Begin page content -->
 	    <main role="main" class="container">
 	      <h1 class="mt-5" style="padding-top: 30px;">Demo App</h1>
+	      <div id="current_name"></div>
 	      <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code>padding-top: 60px;</code> on the <code>body &gt; .container</code>.</p>
 	      <p>Back to <a href="../sticky-footer">the default sticky footer</a> minus the navbar.</p>
 	    </main>
@@ -59,11 +63,12 @@
         {% endblock %}
         
 
-
         {% block javascripts %}
 			<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+            <script src="{{ asset('build/js/app.js') }}"></script>
+
         {% endblock %}
     </body>
 </html>
