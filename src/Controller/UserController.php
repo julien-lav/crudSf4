@@ -55,7 +55,6 @@ class UserController extends Controller
      *
      * @Route("/user/delete/{id}", name="user_delete")
      * Method({"DELETE"})
-     * @Security("has_role('ROLE_ADMIN')")
      */    
     public function delete(Request $request, $id) 
     {

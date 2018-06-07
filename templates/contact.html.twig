@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<div class="container">
+  <section id="contact" class="content-section text-center">
+    <div class="contact-section">
+        <div class="container">
+          <h2>Contact Us</h2>
+          <p>Feel free to shout us by feeling the contact form or visiting our social network sites like Fackebook,Whatsapp,Twitter.</p>
+          <div class="row">
+            <div class="col-md-12">
+              <form class="form-horizontal" action="{{ path('send') }}" method="post">
+                <div class="form-group">
+                  <label for="exampleInputName2">Name</label>
+                  <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe" name="nom">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputName2">Subject</label>
+                  <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe" name="subject">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail2">Email</label>
+                  <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com" name="email">
+                </div>
+                
+                <div class="form-group ">
+                  <label for="exampleInputText">Your Message</label>
+                 <textarea  class="form-control" placeholder="Description" name="body"></textarea> 
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Send Message</button>
+              </form>
+          </div>
+        </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}
+  
