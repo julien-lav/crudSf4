@@ -12,7 +12,9 @@ Encore
 
     // uncomment to define the assets of the project
     // will create public/build/app.js and public/build/app.css
-    .addEntry('js/app', './assets/js/app.js')
+    //.addEntry('js/app', './assets/js/app.js')
+    // Entry vue js
+    .addEntry('app', './assets/js/app.js')
     // .addStyleEntry('css/app', './assets/css/app.scss')
 
     // uncomment if you use Sass/SCSS files
@@ -36,6 +38,9 @@ Encore
 
     // allow sass/scss files to be processed
     // .enableSassLoader()
+
+    // Comme son nom l'indique
+    .enableVueLoader()
 ;
 
 module.exports = Encore.getWebpackConfig();

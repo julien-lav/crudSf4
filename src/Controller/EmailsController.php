@@ -38,11 +38,10 @@ class EmailsController extends Controller
 
 		if($request->isMethod('POST'))
 		{
-			$data = $request->request;
-			$name = $data->get('nom');
-			$email = $data->get('email');
-			$body = $data->get('body');
-			$subject = $data->get('subject');
+			$name = $request->get('nom');
+			$email = $request->get('email');
+			$body = $request->get('body');
+			$subject = $request->get('subject');
 
 		    $message = (new \Swift_Message($subject))
 		        ->setFrom($email)
@@ -54,8 +53,6 @@ class EmailsController extends Controller
             ;
 
 		    $mailer->send($message);
-
-
 
 		    return $this->render('contact.html.twig', 
 		    [

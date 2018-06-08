@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+	{% block body %}
+
+		 	
+			<div id="app" class="container">
+				<div class="text-center">
+	       		<h3> ${ message }</h3>
+  				<button v-on:click="reverseMessage">Reverse Message</button>
+	       		<hr>
+	       			<div class="jumbotron text-center">
+	           			<example></example>
+	       			</div>
+	   			</div>
+   			</div>
+
+   			<div id="app-7" class="container">
+			  <div class="row">
+				  <ol class="col-md-3">			
+				    <todo-item
+				      v-for="item in frontList"
+				      v-bind:todo="item"
+				      v-bind:key="item.id">
+				    </todo-item>
+				  </ol>
+
+				  <ol class="col-md-3">			
+				    <todo-item
+				      v-for="item in backList"
+				      v-bind:todo="item"
+				      v-bind:key="item.id">
+				    </todo-item>
+				  </ol>
+
+				  <ol class="col-md-3">			
+				    <todo-item
+				      v-for="item in toolsList"
+				      v-bind:todo="item"
+				      v-bind:key="item.id">
+				    </todo-item>
+				  </ol>
+
+				  <ol class="col-md-3">			
+				    <todo-item
+				      v-for="item in ideList"
+				      v-bind:todo="item"
+				      v-bind:key="item.id">
+				    </todo-item>
+				  </ol>
+			  </div>
+			</div>
+
+			<div class="container">
+			  <div class="row">
+				<a href="/vue_ex1">La suite ici :</a><p> &nbsp; &nbsp; </p>
+				<a href="/vue_ex2">La suite ici :</a><p> &nbsp; &nbsp; </p>
+				<a href="/vue_ex3">La suite ici :</a><p> &nbsp; &nbsp; </p>
+				<a href="/vue_ex4">La suite ici :</a><p> &nbsp; &nbsp; </p>
+			  </div>
+			</div>
+			        
+    {% endblock %}
