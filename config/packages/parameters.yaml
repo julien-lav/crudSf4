@@ -3,3 +3,10 @@ parameters:
     databaste_user: root
     database_name: sf4
     database_pwd:
+
+    swiftmailer_username: colossusofdestiny.band@gmail.com 
+    swiftmailer_password: password
+
+    admin_email: manager@example.com
+    admin_recipient: julien.laville@hotmail.fr
+

@@ -8,8 +8,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
+use App\Service\EmailService;
 
-class EmailsController extends Controller
+
+class EmailController extends Controller
 {
 
     /**
@@ -26,39 +28,22 @@ class EmailsController extends Controller
         ]);
     }
 
-
     /**
      * Matches /send
      * 
      * @Route("/send", name="send")
      * @Method({"GET", "POST"})
      */
-	public function index(Request $request, \Swift_Mailer $mailer)
+	public function index(Request $request, \Swift_Mailer $mailer, EmailService $emailService)
 	{
 
-		if($request->isMethod('POST'))
-		{
-			$name = $request->get('nom');
-			$email = $request->get('email');
-			$body = $request->get('body');
-			$subject = $request->get('subject');
-
-		    $message = (new \Swift_Message($subject))
-		        ->setFrom($email)
-		        ->setTo('colossusofdestiny.band@gmail.com')
-		        ->setBody(
-					$body,
-                   'text/plain'
-                )
-            ;
-
-		    $mailer->send($message);
+			$data = $emailService->sendMail($request, $mailer);
 
 		    return $this->render('contact.html.twig', 
 		    [
 		     // Used here to reload the page
 		    ]);
-		}
+		
 	}
 }
 ?>

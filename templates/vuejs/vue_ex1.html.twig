@@ -3,22 +3,41 @@
 		 
 			<div id="app-1" class="container">
 				<div v-if="Math.random() > 0.5">
-				  Foo --->  " Math.random > 0.5 " !
+				  Foo -->  " Math.random > 0.5 " !
 				</div>
 				<div v-else>
-				  Bar --->  " Math.random is now below 0.5 " !
+				  Bar -->  " Math.random is now below 0.5 " !
+				</div>
+			</div>
+
+			<div class="container">	
+				{% for label, messages in app.flashes %}
+				    {% for message in messages %}
+			    	    <h2 class="flash-{{ label }}" style="margin: 20px 0 20px 0;">
+			        	    {{ message }} 
+			        	</h2> 
+			    	{% endfor %}
+				{% endfor %}
+			</div>
+
+			<div class="container">	
+				<div class="row ">
+					<div class="col align-self-left">
+						<div>	&nbsp;
+						</div>
+					</div>
+					<div class="col align-self-center">
+						<div id="chartDiv">	
+						</div>
+					</div>
+					<div class="col align-self-rigth">
+						<div>	&nbsp;
+						</div>
+					</div>
 				</div>
 			</div>
 
 
-			<div class="container">
-
-
-				<div id="chartDiv">
-				
-				</div>
-
-			</div>
 			  <script>
 			    var chartData = {
 			      type: 'bar',  // Specify your chart type here.
